@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:inputType="text|textMultiLine"
+            android:textColor="?android:attr/textColorPrimary"
+            android:maxLines="3" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText2"
+            android:layout_centerHorizontal="true"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_marginBottom="10dp"
+            android:inputType="text|textMultiLine"
+            android:maxLines="3" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText3"
+            android:layout_centerHorizontal="true">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorAccent"
+                    android:contentDescription="Teilen"
+                    app:fabSize="normal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:maxImageSize="40dp"
+                    app:elevation="0dp"
+                    app:srcCompat="@drawable/share" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:contentDescription="In Zwischenablage kopieren"
+                    app:fabSize="normal"
+                    app:layout_constraintStart_toEndOf="@id/button5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:maxImageSize="40dp"
+                    android:layout_marginStart="20dp"
+                    app:elevation="0dp"
+                    app:srcCompat="@drawable/copy" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>

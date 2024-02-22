@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Textumdreher</string>
+    <string name="nutzung"><![CDATA[Mit der Nutzung dieser App aktzeptiere ich die <a href=\"https://www.kruemelopment-dev.de/datenschutzerklaerung\">Datenschutzerklärung</a> und die <a href=\"https://www.kruemelopment-dev.de/nutzungsbedingungen\">Nutzungsbedingungen</a> von Krümelopment Dev]]></string>
+
+</resources>
