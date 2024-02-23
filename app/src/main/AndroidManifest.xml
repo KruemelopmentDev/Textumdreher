@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
-
     <application
 
         android:allowBackup="true"
@@ -70,8 +65,6 @@
                 android:resource="@xml/fileshare">
             </meta-data>
         </provider>
-        <service android:name=".CopyService" android:foregroundServiceType="specialUse"/>
-        <activity android:name=".Popup" android:theme="@style/Dialog" android:label="Textumdreher" android:launchMode="singleTask"/>
 
     </application>
 

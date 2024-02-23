@@ -34,11 +34,9 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private var text: EditText? = null
-    private var popup: MenuItem? = null
     private var nightmode = false
     private var clipboard: ClipboardManager? = null
     private var myToast: MyToast? = null
-    private var someActivityResultLauncher: ActivityResultLauncher<Intent>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             val sp2 = getSharedPreferences("settings", 0)
@@ -73,7 +71,6 @@ class MainActivity : AppCompatActivity() {
                 ede.putInt("hoehe", px.toInt())
                 ede.apply()
                 dialog.dismiss()
-                requestPermission()
             }
             nein.setOnClickListener { finishAndRemoveTask() }
             val textView = dialog.findViewById<TextView>(R.id.textView4)
@@ -84,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             textView.movementMethod = LinkMovementMethod.getInstance()
             dialog.setCancelable(false)
             dialog.show()
-        } else requestPermission()
+        }
         clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         text = findViewById(R.id.editText)
         val tv = findViewById<TextView>(R.id.textView)
@@ -144,14 +141,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        someActivityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            if (Settings.canDrawOverlays(this)) {
-                startService(Intent(this@MainActivity, CopyService::class.java))
-                popup!!.setChecked(true)
-            } else popup!!.setChecked(false)
-        }
     }
 
     private fun check(text: String): Boolean {
@@ -170,15 +159,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.dots, menu)
-        popup = menu.findItem(R.id.popuplol)
-        popup!!.setChecked(isMyServiceRunning)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            popup!!.setVisible(false)
-        }
         val darkmode = menu.findItem(R.id.nightmode)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             darkmode.setVisible(false)
@@ -211,35 +191,6 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            R.id.popuplol -> {
-                if (!Settings.canDrawOverlays(this@MainActivity)) {
-                    if (!item.isChecked) {
-                        val intent2 = Intent(
-                            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:$packageName")
-                        )
-                        someActivityResultLauncher!!.launch(intent2)
-                    } else {
-                        if (isMyServiceRunning) {
-                            stopService(Intent(this@MainActivity, CopyService::class.java))
-                        }
-                    }
-                    item.setChecked(false)
-                } else {
-                    if (!item.isChecked) {
-                        if (!isMyServiceRunning) {
-                            startService(Intent(this@MainActivity, CopyService::class.java))
-                        }
-                        item.setChecked(true)
-                    } else {
-                        if (isMyServiceRunning) {
-                            stopService(Intent(this@MainActivity, CopyService::class.java))
-                        }
-                        item.setChecked(false)
-                    }
-                }
-                return true
-            }
             R.id.nightmode -> {
                 nightmode = !nightmode
                 val sp = getSharedPreferences("settings", 0)
@@ -252,31 +203,6 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    private val isMyServiceRunning: Boolean
-        get() {
-            val manager = (getSystemService(ACTIVITY_SERVICE) as ActivityManager)
-            for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-                if (CopyService::class.java.name == service.service.className) {
-                    return true
-                }
-            }
-            return false
-        }
-
-    private fun requestPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this@MainActivity,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-        ) {
-            ActivityCompat.requestPermissions(
-                this@MainActivity,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                14
-            )
         }
     }
 }
